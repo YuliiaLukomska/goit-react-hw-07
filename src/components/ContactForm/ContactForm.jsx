@@ -2,8 +2,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import css from "./ContactForm.module.css";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contactsSlice";
+// import { addContact } from "../../redux/contactsSlice";
 import { nanoid } from "nanoid";
+import { addContact } from "../../redux/contactsOps";
 
 const FeedbackSchema = Yup.object().shape({
   name: Yup.string()
@@ -25,15 +26,15 @@ const ContactForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (data, formActions) => {
-    const finalNewContact = {
-      ...data,
-      id: nanoid(),
-    };
+    // const finalNewContact = {
+    //   ...data,
+    //   id: nanoid(),
+    // };
     /* в dispatch передаємо action-creator (який ми отримали зі слайсу), аргументом якого буде payload. 
     Цей action-creator повертає об'єкт-інструкції.
     Dispatch доставляє наш об'єкт-інструкції (action) до стору і до редюсерів(contactsSlice.js). Відповідний редюсер виконується і оновлює стан.
     Поточний стан зберігається в store.js */
-    dispatch(addContact(finalNewContact));
+    dispatch(addContact(data));
 
     formActions.resetForm();
   };
