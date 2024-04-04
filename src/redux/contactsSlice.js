@@ -2,7 +2,7 @@
 згенеруватии і цехи, які ці команди будуть виконувати)*/
 
 import { createSlice } from "@reduxjs/toolkit";
-import { addContact, fetchContacts } from "./contactsOps";
+import { addContact, deleteContact, fetchContacts } from "./contactsOps";
 
 const INITIAL_STATE = {
   items: [],
@@ -51,6 +51,18 @@ const contactsSlice = createSlice({
       .addCase(addContact.rejected, (state) => {
         state.loading = false;
         state.error = true;
+      })
+      .addCase(deleteContact.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(deleteContact.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = state.items.filter((item) => item.id !== action.payload);
+      })
+      .addCase(deleteContact.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
       });
   },
 });
@@ -67,7 +79,7 @@ const deteleContactActionCreator = (payload) => {
 }; 
 Цю всю логіку приховує Redux Toolkit в слайсері. Назви редюсерів мають співпадати з назвати витягнутих функцій екшн-кріейторів*/
 // зі слайсу витягуємо екшн-кріейтори і будемо їх викор в dispatch.
-export const { deleteContact } = contactsSlice.actions;
+// export const { deleteContact } = contactsSlice.actions;
 
 // Редюсер слайсу. Зі слайсу витягуємо редюсер, який ми використовуємо в store.js і який буде повертати поточний стан
 export const contactsReducer = contactsSlice.reducer;
