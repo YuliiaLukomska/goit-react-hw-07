@@ -4,7 +4,7 @@ const BASE_URL = "https://660e982f356b87a55c4f867c.mockapi.io/contacts";
 
 const removeContact = async (contactId) => {
   const response = await axios.delete(`${BASE_URL}/${contactId}`);
-  console.log(response.data.id);
+
   return response.data.id;
 };
 

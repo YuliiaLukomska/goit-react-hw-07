@@ -1,33 +1,33 @@
 import { useSelector } from "react-redux";
 import Contact from "../Contact/Contact";
 import css from "./ContactList.module.css";
-import { selectContacts } from "../../redux/contactsSlice";
-import { selectNameFilter } from "../../redux/filtersSlice";
+import {
+  selectError,
+  selectFilteredContacts,
+  selectLoading,
+} from "../../redux/contactsSlice";
 
-const getVisibleContacts = (contacts, filters) => {
-  return contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filters.toLowerCase())
-  );
-};
+import Loader from "../Loader/Loader";
+import Error from "../Error/Error";
 
 const ContactList = () => {
-  const contacts = useSelector(selectContacts);
-
-  const filters = useSelector(selectNameFilter);
-  /* при введені слова-фільтру в SearchBox, властивість contacts стану нашого додатка не змінюється, там як було н-д три контакти 
-  так і залишається, ми просто фільтруємо ці контакти за властивість contact.name і виводимо на екран вже відфільтрований 
-  список (бо саме його ми використовуємо для створення списку). */
-  const visibleContacts = getVisibleContacts(contacts, filters);
+  const visibleContacts = useSelector(selectFilteredContacts);
+  const isLoading = useSelector(selectLoading);
+  const isError = useSelector(selectError);
 
   return (
-    <ul className={css.contactListWrapper}>
-      {visibleContacts !== null &&
-        visibleContacts.map((contact) => (
-          <li key={contact.id}>
-            <Contact data={contact} />
-          </li>
-        ))}
-    </ul>
+    <>
+      {isLoading && <Loader />}
+      {isError && <Error />}
+      <ul className={css.contactListWrapper}>
+        {visibleContacts.length > 0 &&
+          visibleContacts.map((contact) => (
+            <li key={contact.id}>
+              <Contact data={contact} />
+            </li>
+          ))}
+      </ul>
+    </>
   );
 };
 

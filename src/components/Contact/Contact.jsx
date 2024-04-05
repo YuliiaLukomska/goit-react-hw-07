@@ -3,7 +3,6 @@ import { IoPersonSharp } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { deleteContact } from "../../redux/contactsOps";
-// import { deleteContact } from "../../redux/contactsSlice";
 
 const Contact = ({ data: { name, number, id } }) => {
   const dispatch = useDispatch();
